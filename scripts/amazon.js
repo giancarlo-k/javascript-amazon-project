@@ -74,6 +74,10 @@ document.querySelectorAll('.js-add-to-cart')
 
       addedMessage.classList.add('addedMessage');
 
+      setTimeout(() => {
+        addedMessage.classList.remove('addedMessage');
+      },2000)
+
       const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
 
       const quantity = Number(quantitySelector.value);
