@@ -656,5 +656,23 @@ const products = [
       "apparel",
       "mens"
     ]
+  }, {
+    id: 'id1',
+    image: "images/products/backpack.jpg",
+    name: "Lightweight casual style backpack",
+    rating: {
+      stars: 2.5,
+      count: 906
+    },
+    priceCents: 2799
+  }, {
+    id: 'id2',
+    image: "images/products/umbrella.jpg",
+    name: "Windproof strong umbrella for weather",
+    rating: {
+      stars: 5,
+      count: 1437
+    },
+    priceCents: 1699
   }
 ];
