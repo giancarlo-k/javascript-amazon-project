@@ -1,4 +1,4 @@
-import {cart} from '../data/cart.js';
+import {cart, addToCart} from '../data/cart.js';
 import {products} from '../data/products.js';
 
 let productsHTML = '';
@@ -57,50 +57,45 @@ products.forEach((product) => {
 });
 
 
-document.querySelector('.js-products-grid')
-  .innerHTML = productsHTML;
+document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
-document.querySelectorAll('.js-add-to-cart')
-  .forEach((button) => {
+
+function updateCartQuantity() {
+  document.querySelectorAll('.js-add-to-cart').forEach((button) => {
     button.addEventListener('click', () => {
-      const {productId} = button.dataset;
-
-      let matchingItem;
-
-      cart.forEach((item) => {
-        if (productId === item.productId) {
-          matchingItem = item;
-        }
-      });
-
-      const addedMessage = document.querySelector(`.js-added-to-cart-${productId}`);
-
-      addedMessage.classList.add('addedMessage');
-
-      setTimeout(() => {
-        addedMessage.classList.remove('addedMessage');
-      },2000)
-
+      const { productId } = button.dataset;
       const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
+      
+      if (quantitySelector) {
+        const quantity = Number(quantitySelector.value) 
+        addToCart(productId, quantity);
 
-      const quantity = Number(quantitySelector.value);
+        let cartQuantity = 0;
+        cart.forEach((cartItem) => {
+          cartQuantity += cartItem.quantity;
+        });
 
-      if (matchingItem) {
-        matchingItem.quantity += quantity;
+        // Update the cart quantity display
+        const cartQuantityElement = document.querySelector('.js-cart-quantity');
+        if (cartQuantityElement) {
+          cartQuantityElement.innerHTML = cartQuantity;
+        }
+
+        // Handle the added to cart message
+        const addedMessage = document.querySelector(`.js-added-to-cart-${productId}`);
+        if (addedMessage) {
+          addedMessage.classList.add('addedMessage');
+
+          setTimeout(() => {
+            addedMessage.classList.remove('addedMessage');
+          }, 2000);
+        }
       } else {
-          cart.push({
-            productId,
-            quantity
-          });
-      };
-
-      let cartQuantity = 0;
-
-      cart.forEach((item) => {
-        cartQuantity += item.quantity;
-      });
-
-      document.querySelector('.js-cart-quantity')
-        .innerHTML = cartQuantity;
+        console.error(`Quantity selector for productId ${productId} not found.`);
+      }
     });
   });
+}
+
+// Call this function after the DOM content is fully loaded
+updateCartQuantity();
