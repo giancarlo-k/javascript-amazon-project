@@ -1,4 +1,4 @@
-const cart = [];
+import { cart } from '../data/cart.js';
 
 let productsHTML = '';
 
@@ -62,8 +62,8 @@ document.querySelectorAll('.js-add-to-cart')
   .forEach((button) => {
     button.addEventListener('click', () => {
       const productId = button.dataset.productId;
-      const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`)
-      const quantity = Number(quantitySelector.value)
+      const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
+      const quantity = Number(quantitySelector.value);
 
       let matchingItem;
 
@@ -80,7 +80,7 @@ document.querySelectorAll('.js-add-to-cart')
           productId,
           quantity
         });
-      }
+      };
 
       let cartQuantity = 0;
 
